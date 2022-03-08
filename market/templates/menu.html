@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+  Market Page
+{% endblock %}
+
+{% block content %}
+      <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">ID</th>
+                <th scope="col">Resturant Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Location</th>
+                <!-- <th scope="col">Options</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Your rows inside the table HERE: -->
+            {% for item in items %}
+                <tr href="{{ url_for('market_page', id=item.id)}}" >
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>
+                        <button class="btn btn-outline btn-info">Buy Now</button>
+                        <button class="btn btn-outline btn-success">Add to cart</button>
+                    </td> 
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
