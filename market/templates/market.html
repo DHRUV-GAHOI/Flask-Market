@@ -12,6 +12,7 @@
                 <th scope="col">Resturant Name</th>
                 <th scope="col">Description</th>
                 <th scope="col">Location</th>
+                <th scope="col">Items</th>
                 <!-- <th scope="col">Options</th> -->
             </tr>
         </thead>
@@ -23,6 +24,8 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.location }}</td>
+                    <td><a href="{{ url_for('menu', id=item.id)}}"> Link</a></td>
+                    
                     <!-- <td>
                         <button class="btn btn-outline btn-info">Buy Now</button>
                         <button class="btn btn-outline btn-success">Add to cart</button>

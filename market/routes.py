@@ -18,10 +18,12 @@ def market_page():
     print(items)
     return render_template('market.html', items=items)
 
-@app.route('/market/<id>')
+@app.route('/menu/<id>')
 @login_required
-def menu():
-    items=Item.query.filter(hotel_id=id)
+def menu(id):
+    items=Item.query.filter_by(hotel_id=id)
+    print('sucess'*100)
+    print(items)
     return render_template('menu.html', items=items)
 
 
