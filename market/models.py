@@ -18,7 +18,6 @@ class User(db.Model, UserMixin):
     budget = db.Column(db.Integer(), nullable=False, default=1000)
     orders = db.relationship('Order', backref='user', lazy=True)
     
-
     @property
     def prettier_budget(self):
         if len(str(self.budget)) >= 4:
@@ -70,4 +69,6 @@ class Order(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id= db.Column(db.Integer, db.ForeignKey('user.id'))
     hotel_id = db.Column(db.Integer, db.ForeignKey('hotel.id'))
-
+    cost=db.Column(db.Integer(), nullable=False, default=0)    
+    def __repr__(self):
+        return f'Order {self.id} '

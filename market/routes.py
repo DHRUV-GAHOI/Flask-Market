@@ -1,9 +1,9 @@
 from market import app
 from flask import render_template, redirect, url_for, flash
-from market.models import Item, User, Hotel
+from market.models import *
 from market.forms import RegisterForm, LoginForm
 from market import db
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 @app.route('/home')
@@ -21,9 +21,11 @@ def market_page():
 @app.route('/menu/<id>')
 @login_required
 def menu(id):
-    items=Item.query.filter_by(hotel_id=id)
+    print('laura')
+    print(id)
+    items=Item.query.filter_by(hotel_id=int(id))
     print('sucess'*100)
-    print(items)
+    print(items[0])
     return render_template('menu.html', items=items)
 
 
@@ -68,7 +70,22 @@ def logout_page():
     return redirect(url_for("home_page"))
 
 
-
+@app.route('/buy_page/<id>')
+@login_required
+def buy_page(id):
+    print('success')
+    items=Item.query.filter_by(id=int(id))[0]
+    print('abcd')
+    u=User.query.filter_by(username=current_user.username)[0]
+    # print(Item.hotel_id)
+    # print(u.id)
+    # print(Item.price)
+    
+    o=Order(user_id=u.id,hotel_id=Item.hotel_id,cost=Item.price)
+    db.session.add(o)
+    db.session.commit()
+    return render_template('cart.html',o)    
+    
 
 
 
