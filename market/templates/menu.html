@@ -11,7 +11,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">Item Name</th>
                 <th scope="col">Description</th>
-                <th scope="col">Hotel ID</th>
+                <th scope="col">Price</th>
                 <th scope="col">Buy Options</th>
                 <!-- <th scope="col">Options</th> -->
             </tr>
@@ -23,7 +23,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
-                    <td>{{ item.hotel_id }}</td>
+                    <td>{{ item.price }}</td>
                     <td>
                         <a href="{{ url_for('buy_page', id=item.id)}}"><button class="btn btn-outline btn-info" >Buy Now</button></a>
                         <button class="btn btn-outline btn-success">Add to cart</button>
