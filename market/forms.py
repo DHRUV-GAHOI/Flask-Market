@@ -38,3 +38,10 @@ class LoginForm(FlaskForm):
     username = StringField(label='User Name:', validators=[DataRequired()])
     password = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
+
+class HotelForm(FlaskForm):
+
+    name = StringField(label='Hotel Name:', validators=[DataRequired()])
+    description = StringField(label='Description:', validators=[DataRequired()])
+    location = PasswordField(label='Location', validators=[DataRequired()])
+    submit = SubmitField(label='Create Account')

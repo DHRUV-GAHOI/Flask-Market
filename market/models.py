@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     budget = db.Column(db.Integer(), nullable=False, default=1000)
     orders = db.relationship('Order', backref='user', lazy=True)
     
+
     @property
     def prettier_budget(self):
         if len(str(self.budget)) >= 4:
@@ -53,22 +54,24 @@ class Item(db.Model):
     price = db.Column(db.Integer(), nullable=False)
     description = db.Column(db.String(length=1024), nullable=False, unique=True)
     hotel_id = db.Column(db.Integer, db.ForeignKey('hotel.id'))
-    orders=db.relationship('Order',secondary='item_order',backref=db.backref('items',lazy=True))
-
+    # orders=db.relationship('Order',secondary='item_order',backref=db.backref('items',lazy=True))
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+  
     def __repr__(self):
         return f'Item {self.name}'
 
 
-item_order_assosiation=db.Table('item_order',
-                                db.Column('item_id',db.Integer,db.ForeignKey('item.id')),
-                                db.Column('order_id',db.Integer,db.ForeignKey('order.id')))
-#order.items.append()
+# item_order_assosiation=db.Table('item_order',
+#                                 db.Column('item_id',db.Integer,db.ForeignKey('item.id')),
+#                                 db.Column('order_id',db.Integer,db.ForeignKey('order.id')))
+# #order.items.append()
 
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer(), primary_key=True)
+    # uni_id=db.Column(db.())
     user_id= db.Column(db.Integer, db.ForeignKey('user.id'))
     hotel_id = db.Column(db.Integer, db.ForeignKey('hotel.id'))
-    cost=db.Column(db.Integer(), nullable=False, default=0)    
-    def __repr__(self):
-        return f'Order {self.id} '
+    cost=db.Column(db.Integer(), nullable=False,default=0)
+    items = db.relationship('Item', backref='order', lazy=True)
+    
