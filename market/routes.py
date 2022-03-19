@@ -1,7 +1,11 @@
 from market import app
 from flask import render_template, redirect, url_for, flash, request
 from market.models import *
-from market.forms import RegisterForm, LoginForm
+<<<<<<< HEAD
+from market.forms import RegisterForm, LoginForm,Itemform
+=======
+from market.forms import RegisterForm, LoginForm ,HotelForm
+>>>>>>> 6c3440fbf887765e0ce73dcfa9b2529d5aaf9903
 from market import db
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -88,6 +92,7 @@ def buy_page(id):
     db.session.commit()
     return render_template('cart.html',o=o)    
     
+<<<<<<< HEAD
 
 
 @app.route('/buy_order/', methods=['GET', 'POST'])
@@ -113,7 +118,39 @@ def buy_order():
     # return render_template('cart.html',o=o)   
 
 
+@app.route('/item_input', methods=['GET', 'POST'])
+def item_input_page():
+    form = Itemform()
+    if form.validate_on_submit():
+        item_to_create = Item(name=form.name.data,
+                              description=form.description.data,
+                              price=form.price.data,
+                              hotel_id=form.hotel_id.data)
+        db.session.add(item_to_create)
+        db.session.commit()
+        flash(f"Account created successfully! You are now logged in as {item_to_create.name}", category='success')
+=======
+@app.route('/hotel_input', methods=['GET', 'POST'])
+def hotel_input_page():
+    form = HotelForm()
+    if form.validate_on_submit():
+        hotel_to_create = Hotel(name=form.name.data,
+                              description=form.description.data,
+                              location=form.location.data)
+        db.session.add(hotel_to_create)
+        db.session.commit()
+        flash(f"Account created successfully! You are now logged in as {hotel_to_create.name}", category='success')
+>>>>>>> 6c3440fbf887765e0ce73dcfa9b2529d5aaf9903
+        return redirect(url_for('market_page'))
+    if form.errors != {}: #If there are not errors from the validations
+        for err_msg in form.errors.values():
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
+<<<<<<< HEAD
+    return render_template('item_input.html', form=form)
+=======
+    return render_template('hotel_input.html', form=form)
 
+>>>>>>> 6c3440fbf887765e0ce73dcfa9b2529d5aaf9903
 
 
