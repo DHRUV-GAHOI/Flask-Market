@@ -77,14 +77,16 @@ def buy_page(id):
     items=Item.query.filter_by(id=int(id))[0]
     print('abcd')
     u=User.query.filter_by(username=current_user.username)[0]
-    # print(Item.hotel_id)
-    # print(u.id)
-    # print(Item.price)
+    print('sdd'*100)
+    print(items.hotel_id)
+    print(u.id)
+    print(items.price)
     
-    o=Order(user_id=u.id,hotel_id=Item.hotel_id,cost=Item.price)
+    o=Order(user_id=u.id,hotel_id=items.hotel_id)
+    o.items.append(items)
     db.session.add(o)
     db.session.commit()
-    return render_template('cart.html',o)    
+    return render_template('cart.html',o=o)    
     
 
 
