@@ -1,5 +1,5 @@
 from market import app
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from market.models import *
 from market.forms import RegisterForm, LoginForm
 from market import db
@@ -89,6 +89,28 @@ def buy_page(id):
     return render_template('cart.html',o=o)    
     
 
+
+@app.route('/buy_order/', methods=['GET', 'POST'])
+@login_required
+def buy_order():
+    print('dfdsfsdfsdfsdfsdfdsf'*100)
+    data = request.form.to_dict()
+    print(data)
+    
+    # print('success')
+    # items=Item.query.filter_by(id=int(id))[0]
+    # print('abcd')
+    # u=User.query.filter_by(username=current_user.username)[0]
+    # print('sdd'*100)
+    # print(items.hotel_id)
+    # print(u.id)
+    # print(items.price)
+    
+    # o=Order(user_id=u.id,hotel_id=items.hotel_id)
+    # o.items.append(items)
+    # db.session.add(o)
+    # db.session.commit()
+    # return render_template('cart.html',o=o)   
 
 
 
