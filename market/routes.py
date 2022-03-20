@@ -1,11 +1,8 @@
 from market import app
 from flask import render_template, redirect, url_for, flash, request
 from market.models import *
-<<<<<<< HEAD
 from market.forms import RegisterForm, LoginForm,Itemform
-=======
 from market.forms import RegisterForm, LoginForm ,HotelForm
->>>>>>> 6c3440fbf887765e0ce73dcfa9b2529d5aaf9903
 from market import db
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -92,30 +89,28 @@ def buy_page(id):
     db.session.commit()
     return render_template('cart.html',o=o)    
     
-<<<<<<< HEAD
-
 
 @app.route('/buy_order/', methods=['GET', 'POST'])
 @login_required
 def buy_order():
-    print('dfdsfsdfsdfsdfsdfdsf'*100)
-    data = request.form.to_dict()
-    print(data)
+    print('-'*50)
+    if request.method == 'POST':
+        data =  request.get_json()
+        print(data)
     
-    # print('success')
-    # items=Item.query.filter_by(id=int(id))[0]
-    # print('abcd')
-    # u=User.query.filter_by(username=current_user.username)[0]
-    # print('sdd'*100)
-    # print(items.hotel_id)
-    # print(u.id)
-    # print(items.price)
+    print('success')
+    items=Item.query.filter_by(id=2)[0]
+    u=User.query.filter_by(username=current_user.username)[0]
+    print('-'*50)
+    print(items.hotel_id)
+    print(u.id)
+    print(items.price)
     
-    # o=Order(user_id=u.id,hotel_id=items.hotel_id)
-    # o.items.append(items)
-    # db.session.add(o)
-    # db.session.commit()
-    # return render_template('cart.html',o=o)   
+    o=Order(user_id=u.id,hotel_id=items.hotel_id)
+    o.items.append(items)
+    db.session.add(o)
+    db.session.commit()
+    return render_template('cart.html',o=o)   
 
 
 @app.route('/item_input', methods=['GET', 'POST'])
@@ -129,7 +124,8 @@ def item_input_page():
         db.session.add(item_to_create)
         db.session.commit()
         flash(f"Account created successfully! You are now logged in as {item_to_create.name}", category='success')
-=======
+    return render_template('item_input.html', form=form)
+
 @app.route('/hotel_input', methods=['GET', 'POST'])
 def hotel_input_page():
     form = HotelForm()
@@ -140,17 +136,32 @@ def hotel_input_page():
         db.session.add(hotel_to_create)
         db.session.commit()
         flash(f"Account created successfully! You are now logged in as {hotel_to_create.name}", category='success')
->>>>>>> 6c3440fbf887765e0ce73dcfa9b2529d5aaf9903
         return redirect(url_for('market_page'))
     if form.errors != {}: #If there are not errors from the validations
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
-<<<<<<< HEAD
-    return render_template('item_input.html', form=form)
-=======
+    # return render_template('item_input.html', form=form)
     return render_template('hotel_input.html', form=form)
 
->>>>>>> 6c3440fbf887765e0ce73dcfa9b2529d5aaf9903
 
+
+@app.route('/add_to_cart/<id>')
+@login_required
+def add_to_cart(id):
+    print('success')
+    items=Item.query.filter_by(id=int(id))[0]
+    print('abcd')
+    u=User.query.filter_by(username=current_user.username)[0]
+    print('sdd'*100)
+    print(items.hotel_id)
+    print(u.id)
+    print(items.price)
+    
+    o=Order(user_id=u.id,hotel_id=items.hotel_id)
+    o.items.append(items)
+    db.session.add(o)
+    db.session.commit()
+    return render_template('cart.html',o=o)    
+    
 
