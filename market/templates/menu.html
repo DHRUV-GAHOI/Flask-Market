@@ -57,8 +57,8 @@
                             <input type="text" value="0"/>
                             <span class="plus {{item.id}}">+</span>
                         </div>
-                        <a href="{{ url_for('buy_page', id=item.id)}}"><button class="btn btn-outline btn-info" >Buy Now</button></a>
-                        <button class="btn btn-outline btn-success">Add to cart</button>
+                        <!-- <a href="{{ url_for('buy_page', id=item.id)}}"><button class="btn btn-outline btn-info" >Buy Now</button></a> -->
+                        <!-- <button class="btn btn-outline btn-success">Add to cart</button> -->
                     </td> 
                 </tr>
                 
@@ -71,10 +71,10 @@
        
     <script>
          
-        var data1={
+        let data1={
 
-        }
-        var a=document.querySelectorAll('.Item')
+        };
+        let a=document.querySelectorAll('.Item')
         let k=0;
         for(;k<a.length;k++)
        {
@@ -115,11 +115,15 @@ $('#btn_submit').click(function(event)
     // xhr.setRequestHeader("X-CSRFToken", csrftoken);
     xhr.onload = function(){
         console.log(xhr.status);
+        let order_id = xhr.response.substring(13, xhr.response.length-1);
+        if (xhr.status == 200){
+            window.location.href = `/cart/${order_id}`;
+        }
     };
     // data1 = JSON.stringify(data1);
     console.log(data1);
-    // data2 = JSON.stringify(data1);
-    xhr.send(data1);
+    data2 = JSON.stringify(data1);
+    xhr.send(data2);
 
     // $.ajax({
     //   type: 'POST',

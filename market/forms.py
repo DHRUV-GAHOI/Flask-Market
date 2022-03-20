@@ -43,14 +43,5 @@ class HotelForm(FlaskForm):
 
     name = StringField(label='Hotel Name:', validators=[DataRequired()])
     description = StringField(label='Description:', validators=[DataRequired()])
-    location = PasswordField(label='Location', validators=[DataRequired()])
-    submit = SubmitField(label='Add Hotel')
-
-class Itemform(FlaskForm):
-
-
-    name = StringField(label='Dishes:', validators=[DataRequired()])
-    price = StringField(label='price:', validators=[DataRequired()])
-    description = StringField(label='Description:', validators=[ DataRequired()])
-    hotel_id = StringField(label='Hotel_id:', validators=[ DataRequired()])
-    submit = SubmitField(label='Add Item')
+    location = StringField(label='Location', validators=[DataRequired()])
+    submit = SubmitField(label='Create Account')
