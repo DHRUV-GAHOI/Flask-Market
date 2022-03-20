@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+    Item Input Page
+{% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            
+            <h1 class="h3 mb-3 font-weight-normal">
+                Item Form
+            </h1>
+            <br>
+            {{ form.name.label() }}
+            {{ form.name(class="form-control", placeholder="Name") }}
+
+            {{ form.description.label() }}
+            {{ form.description(class="form-control", placeholder="Description") }}
+
+            {{ form.price.label() }}
+            {{ form.price(class="form-control", placeholder="price") }}
+
+            {{ form.hotel_id.label() }}
+            {{ form.hotel_id(class="form-control", placeholder="hotel_id") }}
+
+            <br>
+
+<!--            <div class="checkbox mb-3">-->
+<!--               <h6>Already have an account?</h6>-->
+<!--               <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>-->
+<!--            </div>-->
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+</body>
+{% endblock %}s
