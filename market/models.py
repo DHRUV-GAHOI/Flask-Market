@@ -72,6 +72,6 @@ class Order(db.Model):
     # uni_id=db.Column(db.())
     user_id= db.Column(db.Integer, db.ForeignKey('user.id'))
     hotel_id = db.Column(db.Integer, db.ForeignKey('hotel.id'))
-    cost=db.Column(db.Integer(), nullable=False,default=0)
+    cost=db.Column(db.Integer(),default=0)
     items = db.relationship('Item', backref='order', lazy=True)
     order_completed = db.Column(db.Boolean(), default=False)
