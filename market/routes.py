@@ -114,17 +114,17 @@ def buy_order():
     # return render_template('cart.html',o=o)   
 
 
-@app.route('/item_input', methods=['GET', 'POST'])
-def item_input_page():
-    form = Itemform()
-    if form.validate_on_submit():
-        item_to_create = Item(name=form.name.data,
-                              description=form.description.data,
-                              price=form.price.data,
-                              hotel_id=form.hotel_id.data)
-        db.session.add(item_to_create)
-        db.session.commit()
-        flash(f"Account created successfully! You are now logged in as {item_to_create.name}", category='success')
+# @app.route('/item_input', methods=['GET', 'POST'])
+# def item_input_page():
+#     form = Itemform()
+#     if form.validate_on_submit():
+#         item_to_create = Item(name=form.name.data,
+#                               description=form.description.data,
+#                               price=form.price.data,
+#                               hotel_id=form.hotel_id.data)
+#         db.session.add(item_to_create)
+#         db.session.commit()
+#         flash(f"Account created successfully! You are now logged in as {item_to_create.name}", category='success')
 
 @app.route('/hotel_input', methods=['GET', 'POST'])
 def hotel_input_page():
@@ -144,8 +144,6 @@ def hotel_input_page():
 
 
     return render_template('item_input.html', form=form)
-    return render_template('hotel_input.html', form=form)
-
 
 
 @app.route('/item_input', methods=['GET', 'POST'])
