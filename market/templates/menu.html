@@ -29,7 +29,7 @@
         border-radius:4px;
   display: inline-block;
   vertical-align: middle;
-        
+    }
 </style>
       <table class="table table-hover table-dark">
         <thead>
@@ -61,9 +61,9 @@
                         <button class="btn btn-outline btn-success">Add to cart</button>
                     </td> 
                 </tr>
-               <button class="btn btn-outline btn-info" id="btn_submit" >Buy Now</button>
-                        
-            {% endfor %}
+                
+                {% endfor %}
+                <button class="btn btn-outline btn-info" id="btn_submit" >Buy Now</button>
         </tbody>
     </table>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -106,15 +106,29 @@
 $('#btn_submit').click(function(event)
 {
     event.preventDefault();
-    
-    $.ajax({
-      type: 'POST',
-      url: '/buy_order/',
-      data: {'data':data1},
-      success: function (data) {
-        //alert('dasdasd')
-      }
-    });
+    const xhr = new XMLHttpRequest();
+    // const csrftoken = getCookie('csrftoken');
+    xhr.open('POST', '/buy_order/');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    // xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.onload = function(){
+        console.log(xhr.status);
+    };
+    // data1 = JSON.stringify(data1);
+    console.log(data1);
+    // data2 = JSON.stringify(data1);
+    xhr.send(data1);
+
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '/buy_order/',
+    //   data: {'data':data1},
+    //   success: function (data) {
+    //     //alert('dasdasd')
+    //   }
+    // });
 
 })
 
