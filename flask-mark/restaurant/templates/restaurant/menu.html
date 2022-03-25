@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}
+  Market Page
+{% endblock %}
+
+{% block content %}
+<style>
+    span {cursor:pointer; }
+    .minus, .plus{
+        width:20px;
+        height:20px;
+        background:#f2f2f2;
+        border-radius:4px;
+        padding:8px 5px 8px 5px;
+        border:1px solid #ddd;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+    }
+    input{
+        height:34px;
+  width: 100px;
+  text-align: center;
+  font-size: 26px;
+        border:1px solid #ddd;
+        border-radius:4px;
+  display: inline-block;
+  vertical-align: middle;
+    }
+</style>
+      <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">ID</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Buy Options</th>
+                <!-- <th scope="col">Options</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Your rows inside the table HERE: -->
+            {% for item in items %}
+                <tr >
+                    <td class="Item {{item.id}}">{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                        <div class="number">
+                            <span class="minus {{item.id}}">-</span>
+                            <input type="text" value="0"/>
+                            <span class="plus {{item.id}}">+</span>
+                        </div>
+                    </td> 
+                </tr>
+                
+                {% endfor %}
+                <button class="btn btn-outline btn-info" id="btn_submit" >Buy Now</button>
+        </tbody>
+    </table>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> 
+       
+    <script>
+         
+        let data1={
+
+        };
+        let a=document.querySelectorAll('.Item')
+        let k=0;
+        for(;k<a.length;k++)
+       {
+           data1[`${a[k].classList[1]}`]=0;
+       }
+       
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+			$('.minus').click(function () {
+				var $input = $(this).parent().find('input');
+			var count = parseInt($input.val()) - 1;
+				count = count < 1 ? 1 : count;
+				$input.val(count);
+                data1[this.classList[1]]=count;
+				$input.change();
+				return false;
+			});
+			$('.plus').click(function () {
+				var $input = $(this).parent().find('input');
+				$input.val(parseInt($input.val()) + 1);
+				data1[this.classList[1]]=parseInt($input.val()) ;
+                $input.change();
+				return false;
+			});
+		});
+
+$('#btn_submit').click(function(event)
+{
+    event.preventDefault();
+    const xhr = new XMLHttpRequest();
+    // const csrftoken = getCookie('csrftoken');
+    xhr.open('POST', '/buy_order/');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    // xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.onload = function(){
+        console.log(xhr.status);
+        let order_id = xhr.response.substring(13, xhr.response.length-1);
+        if (xhr.status == 200){
+            window.location.href = `/cart/${order_id}`;
+        }
+    };
+    // data1 = JSON.stringify(data1);
+    console.log(data1);
+    data2 = JSON.stringify(data1);
+    xhr.send(data2);
+
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '/buy_order/',
+    //   data: {'data':data1},
+    //   success: function (data) {
+    //     //alert('dasdasd')
+    //   }
+    // });
+
+})
+
+</script>
+{% endblock %}

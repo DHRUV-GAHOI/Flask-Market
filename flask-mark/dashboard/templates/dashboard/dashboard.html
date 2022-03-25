@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}
+    Anytime Dashboard
+{% endblock %}
+{% block content %}
+
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Service</th>
+                <th scope="col">success hits</th>
+                <th scope="col">fail hits</th>
+                <th scope="col">hit Service</th>
+                <!-- <th scope="col">Options</th> -->
+            </tr>
+        </thead>
+        <tbody>
+                <tr >
+                    <td>USER</td>
+                    <td>{{ dashboard.user_success }}</td>
+                    <td>{{ dashboard.user_fail }}</td>
+                    <td><button class="hit-btn" service="getuser">hit User</button></td>
+                </tr>
+                <tr >
+                    <td>ITEM</td>
+                    <td>{{ dashboard.item_success }}</td>
+                    <td>{{ dashboard.item_fail }}</td>
+                    <td><button class="hit-btn" service="getitem">hit Item</button></td>
+                </tr>
+                <tr >
+                    <td>HOTEL</td>
+                    <td>{{ dashboard.hotel_success }}</td>
+                    <td>{{ dashboard.hotel_fail }}</td>
+                    <td><button class="hit-btn"  service="gethotel">hit Hotel</button></td>
+                </tr>
+                <tr >
+                    <td>ORDER</td>
+                    <td>{{ dashboard.order_success }}</td>
+                    <td>{{ dashboard.order_fail }}</td>
+                    <td><button class="hit-btn" service="getorder">hit Order</button></td>
+                </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> 
+    
+    <script>
+        $('.hit-btn').click(function(event){
+            event.preventDefault();
+            let url = $(this).attr('service');
+            console.log(url);
+
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+            // const csrftoken = getCookie('csrftoken');
+            xhr.open('GET', `${url}/1`);
+            xhr.onload = function(){
+                console.log(xhr.status);
+                console.log(xhr.response);
+
+                let hitdata = {};
+                hitdata['hit_url'] = url;
+                if (xhr.response['query_status'] != 500){
+                    hitdata['hit_status'] = 1;
+                } else {
+                    hitdata['hit_status'] = 0;
+                }
+
+                let req = new XMLHttpRequest();
+                req.open('POST', '/dashboard');
+                req.setRequestHeader("Content-Type", "application/json");
+                req.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest");
+                req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                req.onload = function(){
+                    // Do something
+                    // console.log('reloading');
+                    location.reload();
+                };
+                let senddata = JSON.stringify(hitdata);
+                console.log(senddata);
+                req.send(senddata);
+            };
+            xhr.send();
+        });
+
+    </script>
+
+{% endblock %}
